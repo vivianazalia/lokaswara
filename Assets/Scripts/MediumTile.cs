@@ -30,11 +30,11 @@ public class MediumTile : Tile
             {
                 if (currentTimer >= 2)
                 {
-                    GameManager.Instance.score += 2;
+                    GameManager.Instance.score += multiplier * 2;
                 }
                 else
                 {
-                    GameManager.Instance.score += 1;
+                    GameManager.Instance.score += multiplier * 1;
                 }
 
                 currentTimer = 0;

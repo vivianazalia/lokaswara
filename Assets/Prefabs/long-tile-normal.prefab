@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3973626880700379451}
   - component: {fileID: 5899194610822392063}
   - component: {fileID: 6343365503715017794}
-  - component: {fileID: 2749555344898382245}
+  - component: {fileID: 2512072475867970367}
   m_Layer: 0
   m_Name: long-tile-normal
   m_TagString: Tile
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6db7361580e278d4dbb57f439696ac89, type: 3}
+  m_Sprite: {fileID: 21300000, guid: abbc4dd0ddd1eba4ca03f5448c036ed8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,9 +99,9 @@ MonoBehaviour:
   wasPressed: 0
   canPressed: 0
   isPressed: 0
-  normalSprite: {fileID: 21300000, guid: 6db7361580e278d4dbb57f439696ac89, type: 3}
-  pressedSprite: {fileID: 21300000, guid: 0dba546fe63a87e4fbc2f7b8d733ffb7, type: 3}
---- !u!61 &2749555344898382245
+  normalSprite: {fileID: 21300000, guid: abbc4dd0ddd1eba4ca03f5448c036ed8, type: 3}
+  pressedSprite: {fileID: 21300000, guid: e5fca2687e23a01498d5fde8531355e9, type: 3}
+--- !u!61 &2512072475867970367
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,12 +118,12 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.81, y: 6.87}
+    oldSize: {x: 1.41, y: 6.87}
     newSize: {x: 1.51, y: 6.87}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.81, y: 6.87}
+  m_Size: {x: 1.41, y: 6.87}
   m_EdgeRadius: 0

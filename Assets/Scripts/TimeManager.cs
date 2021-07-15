@@ -6,16 +6,40 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     DateTime currentDate;
+    DateTime lastDate;
+    TimeSpan differenceTime;
 
-    private static TimeManager instance = null;
+    public static TimeManager Instance;
 
-    public static TimeManager Instance { get { return instance; } }
-
-    public float CheckDate()
+    private void Awake()
     {
-        currentDate = DateTime.Now;
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
-        string tempString = PlayerPrefs.GetString("Save Date");
-        long tempLong = Convert.ToInt64(tempString);
+    private void Start()
+    {
+        string lastDateString = PlayerPrefs.GetString("LastTime");
+        if (!lastDateString.Equals(""))
+        {
+            lastDate = DateTime.Parse(lastDateString);
+            currentDate = DateTime.Now;
+        }
+    }
+
+    public int DifferenceSeconds()
+    {
+        if(currentDate > lastDate)
+        {
+            differenceTime = currentDate - lastDate;
+        }
+        return (int)differenceTime.TotalSeconds;
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetString("LastTime", DateTime.Now.ToString());
     }
 }

@@ -6,7 +6,7 @@ public class Tile : MonoBehaviour
 {
     [SerializeField] private float speed;
     protected float timer;
-    private Vector3 movementValue;
+    //private Vector3 movementValue;
     public bool wasPressed = false;
     public bool canPressed = false;
     [SerializeField] protected bool isPressed = false;
@@ -15,12 +15,13 @@ public class Tile : MonoBehaviour
     [SerializeField] protected Sprite pressedSprite;
 
     public const int score = 1;
+    protected int multiplier = 1;
 
     void Start()
     {
         startPosition = transform.position;
         timer = normalSprite.rect.height / (speed * 30);
-        movementValue = new Vector3(0, speed, 0);
+        //movementValue = new Vector3(0, speed, 0);
         gameObject.GetComponent<SpriteRenderer>().sprite = normalSprite;
     }
 
@@ -34,7 +35,7 @@ public class Tile : MonoBehaviour
 
     void ScrollTile()
     {
-        transform.position -= movementValue * Time.deltaTime;
+        transform.position -= (new Vector3(0, speed, 0) * Time.deltaTime);
     }
 
     protected virtual void OnMouseDown()
@@ -56,7 +57,7 @@ public class Tile : MonoBehaviour
             isPressed = false;
             if (canPressed)
             {
-                GameManager.Instance.score += score;
+                GameManager.Instance.score += multiplier * score;
                 gameObject.SetActive(false);
                 wasPressed = true;
             }
@@ -75,5 +76,15 @@ public class Tile : MonoBehaviour
     public bool IsPressed()
     {
         return isPressed;
+    }
+
+    public void SetMultiplier(int m)
+    {
+        multiplier = m;
+    }
+
+    public void SetSpeed(float s)
+    {
+        speed = s;
     }
 }

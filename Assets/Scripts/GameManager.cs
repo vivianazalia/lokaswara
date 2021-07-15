@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private int highscore;
     private int exp;
     private int totalExp;
+    public int star = 0;
 
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Text scoreText;
@@ -70,6 +71,8 @@ public class GameManager : MonoBehaviour
             }
             resultScoreText.text = score.ToString();
             highscoreText.text = highscore.ToString();
+
+            PlayerPrefs.SetInt("Star", star);
         }
     }
 

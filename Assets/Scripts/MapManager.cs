@@ -22,27 +22,76 @@ public class MapManager : MonoBehaviour
     private int totalExp = 10;
     private int currentLevel;
 
+    [Header("Heart")]
+    [SerializeField] private Text minutesText;
+    [SerializeField] private Text secondsText;
+    [SerializeField] private Text heartText;
+    [SerializeField] private Text fullText;
+
+    private const float timerMax = 180;
+    private float timerCountDown;
+    private int totalHeart;
+    private const int maxHeart = 3;
+
+    private int seconds;
+    private int minutes;
+
     [SerializeField] private List<Sprite> heartImages = new List<Sprite>();
 
-    private static MapManager instance = null;
-    public static MapManager Instance { get { return instance; } }
+    public static MapManager Instance;
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     void Start()
     {
         if (!PlayerPrefs.HasKey("AppFirstRun"))
         {
-            currentLevel = 1;
-            currentExp = 0;
-            PlayerPrefs.SetInt("Level", currentLevel);
-            PlayerPrefs.SetInt("Exp Point", currentExp);
+            //do tutorial
             PlayerPrefs.SetInt("AppFirstRun", 1);
         }
+        else
+        {
+            totalHeart = PlayerPrefs.GetInt("Heart");
+            timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
 
-        currentExp = PlayerPrefs.GetInt("Exp Point");
-        currentExpText.text = currentExp.ToString();
-        totalExpText.text = totalExp.ToString();
-        currentLevel = PlayerPrefs.GetInt("Level");
-        levelText.text = currentLevel.ToString();
+            if(TimeManager.Instance.DifferenceSeconds() > timerCountDown)
+            {
+                totalHeart += 1;
+                int remaining = (int)(TimeManager.Instance.DifferenceSeconds() - (int)timerCountDown);
+                if(remaining > timerMax)
+                {
+                    int divide = remaining / (int)timerMax;
+                    totalHeart += divide;
+                    timerCountDown = timerMax - (remaining % (int)timerMax);
+                }
+                else
+                {
+                    timerCountDown = timerMax - remaining;
+                }
+
+                if (totalHeart >= maxHeart)
+                {
+                    totalHeart = maxHeart;
+                    timerCountDown = timerMax;
+                }
+            }
+            else
+            {
+                timerCountDown -= TimeManager.Instance.DifferenceSeconds();
+            }
+           
+            currentExp = PlayerPrefs.GetInt("Exp Point");
+            currentExpText.text = currentExp.ToString();
+            totalExpText.text = totalExp.ToString();
+            currentLevel = PlayerPrefs.GetInt("Level");
+            levelText.text = currentLevel.ToString();
+        }
 
         #region Song A
         songAHighscore = PlayerPrefs.GetInt("Song A");
@@ -54,6 +103,7 @@ public class MapManager : MonoBehaviour
     void Update()
     {
         LevelUp();
+        CountDown();
     }
 
     void LevelUp()
@@ -68,6 +118,67 @@ public class MapManager : MonoBehaviour
             PlayerPrefs.SetInt("Exp Point", currentExp);
             currentExpText.text = currentExp.ToString();
         }
+    }
+
+    void CountDown()
+    {
+        if(totalHeart < maxHeart)
+        {
+            fullText.gameObject.SetActive(false);
+            minutesText.gameObject.SetActive(true);
+            secondsText.gameObject.SetActive(true);
+
+            timerCountDown -= Time.deltaTime;
+
+            if (timerCountDown > 60)
+            {
+                minutes = Mathf.RoundToInt(timerCountDown) / 60;
+                seconds = Mathf.RoundToInt(timerCountDown) % 60;
+            }
+            else
+            {
+                minutes = 0;
+                seconds = (int)timerCountDown;
+            }
+
+            if (Mathf.RoundToInt(timerCountDown) <= 0)
+            {
+                totalHeart++;
+                timerCountDown = timerMax;
+            }
+        }
+        else
+        {
+            fullText.gameObject.SetActive(true);
+            minutesText.gameObject.SetActive(false);
+            secondsText.gameObject.SetActive(false);
+        }
+
+        heartText.text = totalHeart.ToString();
+
+        if(minutes < 10)
+        {
+            minutesText.text = "0" + minutes.ToString();
+        }
+        else
+        {
+            minutesText.text = minutes.ToString();
+        }
+
+        if (seconds < 10)
+        {
+            secondsText.text = "0" + seconds.ToString();
+        }
+        else
+        {
+            secondsText.text = seconds.ToString();
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
+        PlayerPrefs.SetInt("Heart", totalHeart);
     }
 
     public void JawaTimur()
@@ -92,7 +203,14 @@ public class MapManager : MonoBehaviour
 
     public void PlaySongA()
     {
-        SceneManager.LoadScene("Song A");
+        if(totalHeart > 0)
+        {
+            totalHeart--;
+            PlayerPrefs.SetString("LastTime", System.DateTime.Now.ToString());
+            PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
+            PlayerPrefs.SetInt("Heart", totalHeart);
+            SceneManager.LoadScene("Song A");
+        }
     }
 
     public void Close()

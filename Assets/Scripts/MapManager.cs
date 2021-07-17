@@ -28,6 +28,12 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Text heartText;
     [SerializeField] private Text fullText;
 
+    [Header("Setting")]
+    [SerializeField] private GameObject settingPanel;
+
+    [Header("Credit")]
+    [SerializeField] private GameObject creditPanel;
+
     private const float timerMax = 180;
     private float timerCountDown;
     private int totalHeart;
@@ -218,6 +224,14 @@ public class MapManager : MonoBehaviour
         if (jatimPanel.activeSelf)
         {
             jatimPanel.SetActive(false);
+        } 
+        else if (settingPanel.activeSelf)
+        {
+            settingPanel.SetActive(false);
+        } 
+        else if (creditPanel.activeSelf)
+        {
+            creditPanel.SetActive(false);
         }
     }
 
@@ -227,5 +241,15 @@ public class MapManager : MonoBehaviour
         {
             infoSongA.SetActive(false);
         }
+    }
+
+    public void Setting()
+    {
+        settingPanel.SetActive(true);
+    }
+
+    public void Credit()
+    {
+        creditPanel.SetActive(true);
     }
 }

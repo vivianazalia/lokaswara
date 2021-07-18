@@ -26,6 +26,12 @@ public class TimeManager : MonoBehaviour
         {
             lastDate = DateTime.Parse(lastDateString);
             currentDate = DateTime.Now;
+            
+        }
+        else
+        {
+            currentDate = DateTime.Now;
+            lastDate = DateTime.Now;
         }
     }
 

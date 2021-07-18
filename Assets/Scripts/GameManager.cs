@@ -83,6 +83,12 @@ public class GameManager : MonoBehaviour
 
     public void Retry()
     {
-        SceneManager.LoadScene(currentScene.name);
+        int currentHeart = PlayerPrefs.GetInt("Heart");
+        if(currentHeart > 0)
+        {
+            currentHeart--;
+            PlayerPrefs.SetInt("Heart", currentHeart);
+            SceneManager.LoadScene(currentScene.name);
+        }
     }
 }

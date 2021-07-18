@@ -8,6 +8,8 @@ public class MapManager : MonoBehaviour
 {
     [Header("Map")]
     [SerializeField] private GameObject jatimPanel;
+    [SerializeField] private Transform parentInfoPanel;
+    private Transform firstParent;
 
     [Header("Song A")]
     [SerializeField] private GameObject infoSongA;
@@ -204,7 +206,9 @@ public class MapManager : MonoBehaviour
 
     public void SongAInfo()
     {
+        firstParent = infoSongA.gameObject.transform.parent;
         infoSongA.SetActive(true);
+        infoSongA.gameObject.transform.parent = parentInfoPanel;
     }
 
     public void PlaySongA()
@@ -240,6 +244,7 @@ public class MapManager : MonoBehaviour
         if (infoSongA.activeSelf)
         {
             infoSongA.SetActive(false);
+            infoSongA.gameObject.transform.parent = firstParent;
         }
     }
 

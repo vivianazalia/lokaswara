@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Island : MonoBehaviour
 {
+    [SerializeField] private GameObject panel;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnMouseDown()
     {
-        
+        if (!panel.activeInHierarchy)
+        {
+            panel.SetActive(true);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Close()
     {
-        
+        if (panel.activeInHierarchy)
+        {
+            panel.SetActive(false);
+        }
     }
 }

@@ -46,8 +46,8 @@ public class Tile : MonoBehaviour
             isPressed = true;
             if (canPressed)
             {
-                gameObject.GetComponent<SpriteRenderer>().sprite = pressedSprite;
                 audio.Play();
+                gameObject.GetComponent<SpriteRenderer>().sprite = pressedSprite;
             }
         }
     }
@@ -59,7 +59,6 @@ public class Tile : MonoBehaviour
             isPressed = false;
             if (canPressed)
             {
-                audio.Stop();
                 GameManager.Instance.score += multiplier * score;
                 gameObject.SetActive(false);
                 wasPressed = true;

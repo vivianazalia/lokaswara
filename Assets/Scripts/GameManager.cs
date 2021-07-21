@@ -17,12 +17,16 @@ public class GameManager : MonoBehaviour
     private int exp;
     private int totalExp;
     public int star = 0;
+    public const int maxStar = 3;
 
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Text scoreText;
     [SerializeField] private Text resultScoreText;
     [SerializeField] private Text highscoreText;
     [SerializeField] private Text expText;
+
+    [SerializeField] private string locationHighscore;
+    [SerializeField] private string locationStar;
 
     private Scene currentScene;
     private void Awake()
@@ -35,15 +39,19 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        highscore = PlayerPrefs.GetInt("Song A");
+        highscore = PlayerPrefs.GetInt(locationHighscore);
         currentScene = SceneManager.GetActiveScene();
-        //Debug.Log(Camera.main.pixelWidth);
     }
 
     void Update()
     {
         scoreText.text = score.ToString();
         GameOver();
+    }
+
+    public int GetMaxStar()
+    {
+        return maxStar;
     }
 
     private void GameOver()
@@ -67,12 +75,15 @@ public class GameManager : MonoBehaviour
             if(score > highscore)
             {
                 highscore = score;
-                PlayerPrefs.SetInt("Song A", highscore);
+                PlayerPrefs.SetInt(locationHighscore, highscore);
             }
             resultScoreText.text = score.ToString();
             highscoreText.text = highscore.ToString();
 
-            PlayerPrefs.SetInt("Star", star);
+            if(PlayerPrefs.GetInt(locationStar) < maxStar)
+            {
+                PlayerPrefs.SetInt(locationStar, star);
+            }
         }
     }
 

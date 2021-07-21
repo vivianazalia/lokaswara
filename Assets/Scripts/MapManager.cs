@@ -6,22 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class MapManager : MonoBehaviour
 {
-    [Header("Map")]
-    [SerializeField] private GameObject jatimPanel;
-    [SerializeField] private Transform parentInfoPanel;
-    private Transform firstParent;
-
-    [Header("Song A")]
-    [SerializeField] private GameObject infoSongA;
-    [SerializeField] private Text songAHighscoreText;
-    private int songAHighscore;
-
     [Header("Profil")]
     [SerializeField] private Text currentExpText;
     [SerializeField] private Text totalExpText;
     [SerializeField] private Text levelText;
     private int currentExp;
-    private int totalExp = 10;
+    private int totalExp;
     private int currentLevel;
 
     [Header("Heart")]
@@ -44,8 +34,6 @@ public class MapManager : MonoBehaviour
     private int seconds;
     private int minutes;
 
-    [SerializeField] private List<Sprite> heartImages = new List<Sprite>();
-
     public static MapManager Instance;
 
     private void Awake()
@@ -58,6 +46,12 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
+        totalHeart = PlayerPrefs.GetInt("Heart");
+        totalExp = PlayerPrefs.GetInt("Total Exp");
+        timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
+        currentExp = PlayerPrefs.GetInt("Exp Point");
+        currentLevel = PlayerPrefs.GetInt("Level");
+
         if (!PlayerPrefs.HasKey("AppFirstRun"))
         {
             //do tutorial
@@ -65,9 +59,6 @@ public class MapManager : MonoBehaviour
         }
         else
         {
-            totalHeart = PlayerPrefs.GetInt("Heart");
-            timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
-
             if(TimeManager.Instance.DifferenceSeconds() > timerCountDown)
             {
                 totalHeart += 1;
@@ -93,19 +84,13 @@ public class MapManager : MonoBehaviour
             {
                 timerCountDown -= TimeManager.Instance.DifferenceSeconds();
             }
-           
-            currentExp = PlayerPrefs.GetInt("Exp Point");
-            currentExpText.text = currentExp.ToString();
-            totalExpText.text = totalExp.ToString();
-            currentLevel = PlayerPrefs.GetInt("Level");
-            levelText.text = currentLevel.ToString();
         }
 
-        #region Song A
-        songAHighscore = PlayerPrefs.GetInt("Song A");
-        songAHighscoreText.text = songAHighscore.ToString();
-        #endregion
-        
+        currentExpText.text = currentExp.ToString();
+        totalExpText.text = totalExp.ToString();
+        levelText.text = currentLevel.ToString();
+        heartText.text = totalHeart.ToString();
+        PlayerPrefs.SetInt("Heart", totalHeart);
     }
 
     void Update()
@@ -117,7 +102,7 @@ public class MapManager : MonoBehaviour
     void LevelUp()
     {
         if (currentExp >= totalExp)
-        {
+        { 
             int substractExp = currentExp - totalExp;
             currentLevel++;
             PlayerPrefs.SetInt("Level", currentLevel);
@@ -125,6 +110,9 @@ public class MapManager : MonoBehaviour
             currentExp = substractExp;
             PlayerPrefs.SetInt("Exp Point", currentExp);
             currentExpText.text = currentExp.ToString();
+            totalExp += (totalExp * 2);
+            PlayerPrefs.SetInt("TotalExp", totalExp);
+            totalExpText.text = totalExp.ToString();
         }
     }
 
@@ -153,6 +141,7 @@ public class MapManager : MonoBehaviour
             {
                 totalHeart++;
                 timerCountDown = timerMax;
+                PlayerPrefs.SetInt("Heart", totalHeart);
             }
         }
         else
@@ -189,62 +178,20 @@ public class MapManager : MonoBehaviour
         PlayerPrefs.SetInt("Heart", totalHeart);
     }
 
-    public void JawaTimur()
+    public void OnSceneChange()
     {
-        jatimPanel.SetActive(true);
-    }
-
-    public void JawaTengah()
-    {
-
-    }
-
-    public void JawaBarat()
-    {
-
-    }
-
-    public void SongAInfo()
-    {
-        firstParent = infoSongA.gameObject.transform.parent;
-        infoSongA.SetActive(true);
-        infoSongA.gameObject.transform.parent = parentInfoPanel;
-    }
-
-    public void PlaySongA()
-    {
-        if(totalHeart > 0)
-        {
-            totalHeart--;
-            PlayerPrefs.SetString("LastTime", System.DateTime.Now.ToString());
-            PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
-            PlayerPrefs.SetInt("Heart", totalHeart);
-            SceneManager.LoadScene("Song A");
-        }
+        PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
     }
 
     public void Close()
     {
-        if (jatimPanel.activeSelf)
-        {
-            jatimPanel.SetActive(false);
-        } 
-        else if (settingPanel.activeSelf)
+        if (settingPanel.activeInHierarchy)
         {
             settingPanel.SetActive(false);
         } 
-        else if (creditPanel.activeSelf)
+        else if (creditPanel.activeInHierarchy)
         {
             creditPanel.SetActive(false);
-        }
-    }
-
-    public void CloseInfo()
-    {
-        if (infoSongA.activeSelf)
-        {
-            infoSongA.SetActive(false);
-            infoSongA.gameObject.transform.parent = firstParent;
         }
     }
 

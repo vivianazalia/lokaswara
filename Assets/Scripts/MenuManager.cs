@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    private void Start()
+    public void ResetFirstRun()
     {
-        
+        PlayerPrefs.DeleteKey("AppFirstRun");
     }
 
     private void OnMouseDown()
@@ -18,6 +18,8 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetInt("Level", 1);
             PlayerPrefs.SetInt("Exp Point", 0);
             PlayerPrefs.SetInt("Heart", 3);
+            PlayerPrefs.SetInt("Total Exp", 100);
+            PlayerPrefs.SetInt("TimerCountDown", 180);
 
             //play cutscene
             Debug.Log("Play Cutscene");

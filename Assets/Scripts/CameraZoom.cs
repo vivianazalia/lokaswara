@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraZoom : MonoBehaviour
 {
@@ -90,58 +91,66 @@ public class CameraZoom : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            touchStart = cam.ScreenToWorldPoint(Input.mousePosition);
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                touchStart = cam.ScreenToWorldPoint(Input.mousePosition);
+            }
+            
         }
 
         //drag camera 
         if (Input.GetMouseButton(0))
         {
-            Vector3 dir = touchStart - cam.ScreenToWorldPoint(Input.mousePosition);
-            cam.transform.position += dir;
-
-            //bound camera
-            if (cam.orthographicSize < 4)
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                if (cam.transform.position.x >= 20.77f)
-                {
-                    cam.transform.position = new Vector3(20.77f, cam.transform.position.y, cam.transform.position.z);
-                }
-                else if (cam.transform.position.x <= -10.48f)
-                {
-                    cam.transform.position = new Vector3(-10.48f, cam.transform.position.y, cam.transform.position.z);
-                }
+                Vector3 dir = touchStart - cam.ScreenToWorldPoint(Input.mousePosition);
+                cam.transform.position += dir;
 
-                if (cam.transform.position.y > 6.27f)
+                //bound camera
+                if (cam.orthographicSize < 4)
                 {
-                    cam.transform.position = new Vector3(cam.transform.position.x, 6.27f, cam.transform.position.z);
+                    if (cam.transform.position.x >= 20.77f)
+                    {
+                        cam.transform.position = new Vector3(20.77f, cam.transform.position.y, cam.transform.position.z);
+                    }
+                    else if (cam.transform.position.x <= -10.48f)
+                    {
+                        cam.transform.position = new Vector3(-10.48f, cam.transform.position.y, cam.transform.position.z);
+                    }
+
+                    if (cam.transform.position.y > 6.27f)
+                    {
+                        cam.transform.position = new Vector3(cam.transform.position.x, 6.27f, cam.transform.position.z);
+                    }
+                    else if (cam.transform.position.y < -4.12f)
+                    {
+                        cam.transform.position = new Vector3(cam.transform.position.x, -4.12f, cam.transform.position.z);
+                    }
                 }
-                else if (cam.transform.position.y < -4.12f)
+                else if (cam.orthographicSize < 9)
                 {
-                    cam.transform.position = new Vector3(cam.transform.position.x, -4.12f, cam.transform.position.z);
+                    if (cam.transform.position.x >= 10.49f)
+                    {
+                        cam.transform.position = new Vector3(10.49f, cam.transform.position.y, cam.transform.position.z);
+                    }
+                    else if (cam.transform.position.x <= -1.49f)
+                    {
+                        cam.transform.position = new Vector3(-1.49f, cam.transform.position.y, cam.transform.position.z);
+                    }
+
+                    if (cam.transform.position.y > 1.44f)
+                    {
+                        cam.transform.position = new Vector3(cam.transform.position.x, 1.44f, cam.transform.position.z);
+                    }
+                    else if (cam.transform.position.y < -0.54f)
+                    {
+                        cam.transform.position = new Vector3(cam.transform.position.x, -0.54f, cam.transform.position.z);
+                    }
                 }
             }
-            else if (cam.orthographicSize < 9)
-            {
-                if (cam.transform.position.x >= 10.49f)
-                {
-                    cam.transform.position = new Vector3(10.49f, cam.transform.position.y, cam.transform.position.z);
-                }
-                else if (cam.transform.position.x <= -1.49f)
-                {
-                    cam.transform.position = new Vector3(-1.49f, cam.transform.position.y, cam.transform.position.z);
-                }
 
-                if (cam.transform.position.y > 1.44f)
-                {
-                    cam.transform.position = new Vector3(cam.transform.position.x, 1.44f, cam.transform.position.z);
-                }
-                else if (cam.transform.position.y < -0.54f)
-                {
-                    cam.transform.position = new Vector3(cam.transform.position.x, -0.54f, cam.transform.position.z);
-                }
-            }
+            Zoom();
         }
-
-        Zoom();
+            
     }
 }

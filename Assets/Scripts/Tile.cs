@@ -6,13 +6,15 @@ public class Tile : MonoBehaviour
 {
     [SerializeField] private float speed;
     protected float timer;
-    //private Vector3 movementValue;
+    Vector3 startPosition;
+
     public bool wasPressed = false;
     public bool canPressed = false;
     [SerializeField] protected bool isPressed = false;
-    Vector3 startPosition;
+
     [SerializeField] protected Sprite normalSprite;
     [SerializeField] protected Sprite pressedSprite;
+    [SerializeField] protected AudioSource audio;
 
     public const int score = 1;
     protected int multiplier = 1;
@@ -21,7 +23,6 @@ public class Tile : MonoBehaviour
     {
         startPosition = transform.position;
         timer = normalSprite.rect.height / (speed * 30);
-        //movementValue = new Vector3(0, speed, 0);
         gameObject.GetComponent<SpriteRenderer>().sprite = normalSprite;
     }
 
@@ -46,6 +47,7 @@ public class Tile : MonoBehaviour
             if (canPressed)
             {
                 gameObject.GetComponent<SpriteRenderer>().sprite = pressedSprite;
+                audio.Play();
             }
         }
     }
@@ -57,6 +59,7 @@ public class Tile : MonoBehaviour
             isPressed = false;
             if (canPressed)
             {
+                audio.Stop();
                 GameManager.Instance.score += multiplier * score;
                 gameObject.SetActive(false);
                 wasPressed = true;

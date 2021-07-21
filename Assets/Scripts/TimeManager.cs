@@ -21,17 +21,16 @@ public class TimeManager : MonoBehaviour
 
     private void Start()
     {
-        string lastDateString = PlayerPrefs.GetString("LastTime");
-        if (!lastDateString.Equals(""))
+        if (!PlayerPrefs.HasKey("LastTime"))
         {
-            lastDate = DateTime.Parse(lastDateString);
+            lastDate = DateTime.Now;
             currentDate = DateTime.Now;
-            
         }
         else
         {
             currentDate = DateTime.Now;
-            lastDate = DateTime.Now;
+            string lastDateString = PlayerPrefs.GetString("LastTime");
+            lastDate = DateTime.Parse(lastDateString);
         }
     }
 

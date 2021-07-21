@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Island : MonoBehaviour
 {
@@ -8,9 +9,12 @@ public class Island : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!panel.activeInHierarchy)
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            panel.SetActive(true);
+            if (!panel.activeInHierarchy)
+            {
+                panel.SetActive(true);
+            }
         }
     }
 

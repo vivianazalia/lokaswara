@@ -8,10 +8,11 @@ public class TilesManager : MonoBehaviour
     [SerializeField] private List<Tile> tilesPressed = new List<Tile>();
     Tile[] childTiles;
 
+    [SerializeField] private AudioSource backSong;
+
     private int multiplier = 1;
     private float speed = 5;
     private const float maxSpeed = 15;
-    private const int maxStar = 3;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class TilesManager : MonoBehaviour
         {
             tiles.Add(childTiles[i]);
         }
+        backSong.Play();
     }
 
     void Update()
@@ -56,9 +58,9 @@ public class TilesManager : MonoBehaviour
                 speed++;
             }
 
-            if(GameManager.Instance.star >= maxStar)
+            if(GameManager.Instance.star >= GameManager.Instance.GetMaxStar())
             {
-                GameManager.Instance.star = maxStar;
+                GameManager.Instance.star = GameManager.Instance.GetMaxStar();
             }
             else
             {

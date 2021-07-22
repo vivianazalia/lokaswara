@@ -9,8 +9,8 @@ public class MediumTile : Tile
     protected override void Update()
     {
         base.Update();
-        
-        if(currentTimer < timer && isPressed)
+
+        if (currentTimer < timer && isPressed)
         {
             currentTimer += timer * Time.deltaTime;
         }
@@ -38,7 +38,8 @@ public class MediumTile : Tile
                 }
 
                 currentTimer = 0;
-                gameObject.SetActive(false);
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 wasPressed = true;
             }
         }

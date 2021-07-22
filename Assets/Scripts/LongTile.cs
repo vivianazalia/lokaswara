@@ -38,7 +38,8 @@ public class LongTile : Tile
                 }
 
                 currentTimer = 0;
-                gameObject.SetActive(false);
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 wasPressed = true;
             }
         }

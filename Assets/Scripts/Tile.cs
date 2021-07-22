@@ -31,6 +31,7 @@ public class Tile : MonoBehaviour
         if (!GameManager.Instance.isGameOver)
         {
             ScrollTile();
+            //StartCoroutine(PlayMusic());
         }
     }
 
@@ -60,7 +61,8 @@ public class Tile : MonoBehaviour
             if (canPressed)
             {
                 GameManager.Instance.score += multiplier * score;
-                gameObject.SetActive(false);
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 wasPressed = true;
             }
         }
@@ -73,6 +75,8 @@ public class Tile : MonoBehaviour
         wasPressed = false;
         canPressed = false;
         gameObject.GetComponent<SpriteRenderer>().sprite = normalSprite;
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     public bool IsPressed()

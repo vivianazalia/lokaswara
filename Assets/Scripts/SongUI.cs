@@ -88,4 +88,16 @@ public class SongUI : MonoBehaviour
     {
         return levelToUnlocked;
     }
+
+    public void PreviewSong(AudioSource song)
+    {
+        if (!song.isPlaying)
+        {
+            song.Play();
+        }
+        else
+        {
+            song.Stop();
+        }
+    }
 }

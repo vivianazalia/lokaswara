@@ -32,8 +32,6 @@ public class LevelManager : MonoBehaviour
             if (levelButtons[i].GetLevelToUnlock() > levelReached)
             {
                 levelButtons[i].lockPanel.SetActive(true);
-                levelButtons[i].playButton.enabled = false;
-                Debug.Log("i -> " + i);
             }
         }
 

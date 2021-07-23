@@ -871,7 +871,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGameOver: 0
   resultCount: 1
-  alreadySetStar: 0
   score: 0
   star: 0
   gameOverPanel: {fileID: 1211582713}

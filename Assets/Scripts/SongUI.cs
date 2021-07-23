@@ -12,6 +12,7 @@ public class SongUI : MonoBehaviour
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private GameObject parentInfoPanel;
     [SerializeField] private GameObject starContainer;
+    [SerializeField] private Text unlockLevelText;
     public GameObject lockPanel;
     public Button playButton;
     [SerializeField] private Text highscoreText;
@@ -25,7 +26,7 @@ public class SongUI : MonoBehaviour
     private int totalHeart;
     private int highscore;
     private int star;
-    [SerializeField] private int levelToUnlocked;
+    [SerializeField] private int levelToUnlock;
     private Image[] stars = new Image[3];
 
     private void Start()
@@ -35,6 +36,7 @@ public class SongUI : MonoBehaviour
         star = PlayerPrefs.GetInt(locationStar);
 
         highscoreText.text = highscore.ToString();
+        unlockLevelText.text = "Terbuka saat Lv." + levelToUnlock;
 
         for(int i = 0; i < stars.Length; i++)
         {
@@ -86,7 +88,7 @@ public class SongUI : MonoBehaviour
 
     public int GetLevelToUnlock()
     {
-        return levelToUnlocked;
+        return levelToUnlock;
     }
 
     public void PreviewSong(AudioSource song)

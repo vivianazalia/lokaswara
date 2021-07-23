@@ -5,7 +5,9 @@ using UnityEngine.EventSystems;
 
 public class Island : MonoBehaviour
 {
+    [Header("UI")]
     [SerializeField] private GameObject panel;
+    [SerializeField] private int levelToUnlock;
 
     private void OnMouseDown()
     {
@@ -24,5 +26,10 @@ public class Island : MonoBehaviour
         {
             panel.SetActive(false);
         }
+    }
+
+    public int GetLevelToUnlock()
+    {
+        return levelToUnlock;
     }
 }

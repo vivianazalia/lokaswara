@@ -123,7 +123,7 @@ public class MapManager : MonoBehaviour
             currentExp = substractExp;
             PlayerPrefs.SetInt("Exp Point", currentExp);
             currentExpText.text = currentExp.ToString();
-            totalExp += (totalExp * 2);
+            totalExp = (totalExp * 2);
             PlayerPrefs.SetInt("TotalExp", totalExp);
             totalExpText.text = totalExp.ToString();
         }

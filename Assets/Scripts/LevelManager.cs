@@ -7,12 +7,15 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     public SongUI[] levelButtons;
+    [SerializeField] private Island[] islandLevelToUnlock;
+    [SerializeField] private Sprite lockIsland;
 
     //[SerializeField] private AudioSource bgm;
     //[SerializeField] private AudioSource buttonClick;
 
     private void Start()
     {
+        islandLevelToUnlock = FindObjectsOfType<Island>();
         //bgm = GetComponent<AudioSource>();
         ConfigureButtonLevel();
         //buttonClick.volume = PlayerPrefs.GetFloat("Volume");
@@ -31,6 +34,14 @@ public class LevelManager : MonoBehaviour
                 levelButtons[i].lockPanel.SetActive(true);
                 levelButtons[i].playButton.enabled = false;
                 Debug.Log("i -> " + i);
+            }
+        }
+
+        for (int i = 0; i < islandLevelToUnlock.Length; i++)
+        {
+            if (islandLevelToUnlock[i].GetLevelToUnlock() > levelReached)
+            {
+                islandLevelToUnlock[i].GetComponent<SpriteRenderer>().sprite = lockIsland;
             }
         }
     }

@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver = false;
     public bool resultCount = true;
-    public bool alreadySetStar = false;
+    private bool alreadySetStar = false;
 
     public int score = 0;
     private int highscore;
@@ -127,16 +127,20 @@ public class GameManager : MonoBehaviour
                     Image star = smallStar.AddComponent<Image>();
                     star.sprite = starsSprite[0];
                     RectTransform starRect = smallStar.GetComponent<RectTransform>();
+                    starRect.localScale = new Vector3(.8f, .8f, .8f);
+                    starRect.localPosition = new Vector3(0, 0, 0);
                     starRect.sizeDelta = new Vector2(70, 70);
                 }
                 else
                 {
-                    GameObject smallStar = new GameObject("star");
-                    smallStar.transform.SetParent(starsImage[i].transform);
-                    Image star = smallStar.AddComponent<Image>();
+                    GameObject bigStar = new GameObject("star");
+                    bigStar.transform.SetParent(starsImage[i].transform);
+                    Image star = bigStar.AddComponent<Image>();
                     star.sprite = starsSprite[1];
-                    RectTransform starRect = smallStar.GetComponent<RectTransform>();
-                    starRect.sizeDelta = new Vector2(70, 70);
+                    RectTransform starRect = bigStar.GetComponent<RectTransform>();
+                    starRect.localScale = new Vector3(.8f, .8f, .8f);
+                    starRect.localPosition = new Vector3(0, 0, 0);
+                    starRect.sizeDelta = new Vector2(120, 120);
                 }
             }
             alreadySetStar = true;

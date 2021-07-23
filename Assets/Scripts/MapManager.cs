@@ -47,11 +47,36 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         totalHeart = PlayerPrefs.GetInt("Heart");
-        totalExp = PlayerPrefs.GetInt("Total Exp");
+        totalExp = PlayerPrefs.GetInt("TotalExp");
         timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
         currentExp = PlayerPrefs.GetInt("Exp Point");
         currentLevel = PlayerPrefs.GetInt("Level");
 
+        CheckForFirstRun();
+
+        currentExpText.text = currentExp.ToString();
+        totalExpText.text = totalExp.ToString();
+        levelText.text = currentLevel.ToString();
+        heartText.text = totalHeart.ToString();
+        PlayerPrefs.SetInt("Heart", totalHeart);
+    }
+
+    void Update()
+    {
+        LevelUp();
+        CountDown();
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
+    void CheckForFirstRun()
+    {
         if (!PlayerPrefs.HasKey("AppFirstRun"))
         {
             //do tutorial
@@ -59,11 +84,11 @@ public class MapManager : MonoBehaviour
         }
         else
         {
-            if(TimeManager.Instance.DifferenceSeconds() > timerCountDown)
+            if (TimeManager.Instance.DifferenceSeconds() > timerCountDown)
             {
                 totalHeart += 1;
                 int remaining = (int)(TimeManager.Instance.DifferenceSeconds() - (int)timerCountDown);
-                if(remaining > timerMax)
+                if (remaining > timerMax)
                 {
                     int divide = remaining / (int)timerMax;
                     totalHeart += divide;
@@ -85,18 +110,6 @@ public class MapManager : MonoBehaviour
                 timerCountDown -= TimeManager.Instance.DifferenceSeconds();
             }
         }
-
-        currentExpText.text = currentExp.ToString();
-        totalExpText.text = totalExp.ToString();
-        levelText.text = currentLevel.ToString();
-        heartText.text = totalHeart.ToString();
-        PlayerPrefs.SetInt("Heart", totalHeart);
-    }
-
-    void Update()
-    {
-        LevelUp();
-        CountDown();
     }
 
     void LevelUp()
@@ -172,12 +185,6 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
-    {
-        PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
-        PlayerPrefs.SetInt("Heart", totalHeart);
-    }
-
     public void OnSceneChange()
     {
         PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
@@ -203,5 +210,11 @@ public class MapManager : MonoBehaviour
     public void Credit()
     {
         creditPanel.SetActive(true);
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
+        PlayerPrefs.SetInt("Heart", totalHeart);
     }
 }

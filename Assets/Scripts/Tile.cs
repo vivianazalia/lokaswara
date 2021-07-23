@@ -31,7 +31,6 @@ public class Tile : MonoBehaviour
         if (!GameManager.Instance.isGameOver)
         {
             ScrollTile();
-            //StartCoroutine(PlayMusic());
         }
     }
 

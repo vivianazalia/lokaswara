@@ -5,12 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField] private GameObject exitPanel;
+
+    private void Update()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ShowExitPanel();
+            }
+        }
+    }
     public void ResetFirstRun()
     {
-        PlayerPrefs.DeleteKey("AppFirstRun");
+        PlayerPrefs.DeleteAll();
+        Debug.Log("Reset Succes");
     }
 
-    private void OnMouseDown()
+    public void Play()
     {
         if (!PlayerPrefs.HasKey("AppFirstRun"))
         {
@@ -18,12 +31,38 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetInt("Level", 1);
             PlayerPrefs.SetInt("Exp Point", 0);
             PlayerPrefs.SetInt("Heart", 3);
-            PlayerPrefs.SetInt("Total Exp", 100);
+            PlayerPrefs.SetInt("TotalExp", 100);
             PlayerPrefs.SetInt("TimerCountDown", 180);
 
             //play cutscene
             Debug.Log("Play Cutscene");
         }
         SceneManager.LoadScene("Map");
+    }
+
+    public void ShowExitPanel()
+    {
+        if (!exitPanel.activeInHierarchy)
+        {
+            exitPanel.SetActive(true);
+        }
+    }
+
+    public void YaButton()
+    {
+        Quit();
+    }
+
+    public void TidakButton()
+    {
+        if (exitPanel.activeInHierarchy)
+        {
+            exitPanel.SetActive(false);
+        }
+    }
+
+    void Quit()
+    {
+        Application.Quit();
     }
 }

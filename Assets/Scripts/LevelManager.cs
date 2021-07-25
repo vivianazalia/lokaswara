@@ -40,6 +40,7 @@ public class LevelManager : MonoBehaviour
             if (islandLevelToUnlock[i].GetLevelToUnlock() > levelReached)
             {
                 islandLevelToUnlock[i].GetComponent<SpriteRenderer>().sprite = lockIsland;
+                islandLevelToUnlock[i].IsUnlock(false);
             }
         }
     }

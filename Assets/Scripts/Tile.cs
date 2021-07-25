@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Tile : MonoBehaviour
 {
@@ -28,8 +29,8 @@ public class Tile : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (!GameManager.Instance.isGameOver)
-        {
+        if (!GameManager.Instance.isGameOver && GameManager.Instance.startScroll)
+        { 
             ScrollTile();
         }
     }
@@ -41,7 +42,7 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseDown()
     {
-        if (!GameManager.Instance.isGameOver)
+        if (!GameManager.Instance.isGameOver && !EventSystem.current.IsPointerOverGameObject())
         {
             isPressed = true;
             if (canPressed)
@@ -54,7 +55,7 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseUp()
     {
-        if (!GameManager.Instance.isGameOver)
+        if (!GameManager.Instance.isGameOver && !EventSystem.current.IsPointerOverGameObject())
         {
             isPressed = false;
             if (canPressed)

@@ -29,6 +29,8 @@ public class SongUI : MonoBehaviour
     [SerializeField] private int levelToUnlock;
     private Image[] stars = new Image[3];
 
+    [HideInInspector] public bool isClicked;
+
     private void Start()
     {
         firstParent = infoPanel.transform.parent;
@@ -48,6 +50,7 @@ public class SongUI : MonoBehaviour
 
     public void PlayGame()
     {
+        isClicked = true;
         totalHeart = PlayerPrefs.GetInt("Heart");
         if (totalHeart > 0)
         {

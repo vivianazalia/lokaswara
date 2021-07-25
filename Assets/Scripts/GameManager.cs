@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance = null;
-    public static GameManager Instance { get { return instance; } }
+    public static GameManager Instance;
 
     public bool isGameOver = false;
     public bool resultCount = true;
@@ -19,13 +18,19 @@ public class GameManager : MonoBehaviour
     private int totalExp;
     public int star = 0;
     public const int maxStar = 3;
+    private float countdownToStart = 3;
+    public bool startScroll;
+    private bool isPaused = false;
 
     [Header("Assets for UI")]
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject pauseButton;
     [SerializeField] private Text scoreText;
     [SerializeField] private Text resultScoreText;
     [SerializeField] private Text highscoreText;
     [SerializeField] private Text expText;
+    [SerializeField] protected Text countdownToStartText;
     [SerializeField] private GameObject[] starsImage = new GameObject[3];
     [SerializeField] private Sprite[] starsSprite = new Sprite[2];
 
@@ -35,9 +40,9 @@ public class GameManager : MonoBehaviour
     private Scene currentScene;
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
     }
 
@@ -49,8 +54,31 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        scoreText.text = score.ToString();
+        CountdownToStart();
         GameOver();
+    }
+
+    private void CountdownToStart()
+    {
+        if (countdownToStart > 1 && !isPaused)
+        {
+            startScroll = false;
+            countdownToStart -= Time.deltaTime;
+            countdownToStartText.text = Mathf.RoundToInt(countdownToStart).ToString();
+            pauseButton.SetActive(false);
+        }
+        else
+        {
+            if (!isPaused)
+            {
+                pauseButton.SetActive(true);
+                startScroll = true;
+            }
+
+            countdownToStartText.gameObject.SetActive(false);
+            scoreText.gameObject.SetActive(true);
+            scoreText.text = score.ToString();
+        }
     }
 
     public int GetMaxStar()
@@ -62,6 +90,7 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver)
         {
+            scoreText.gameObject.SetActive(false);
             gameOverPanel.SetActive(true);
             exp = Mathf.RoundToInt(score / 10);
             if(exp < 1)
@@ -90,6 +119,11 @@ public class GameManager : MonoBehaviour
             }
 
             SetStarImage();
+
+            if (!PlayerPrefs.HasKey("AppFirstRun"))
+            {
+                PlayerPrefs.SetInt("AppFirstRun", 1);
+            }
         }
     }
 
@@ -106,6 +140,29 @@ public class GameManager : MonoBehaviour
             currentHeart--;
             PlayerPrefs.SetInt("Heart", currentHeart);
             SceneManager.LoadScene(currentScene.name);
+        }
+    }
+
+    public void Pause()
+    {
+        if (!isPaused)
+        {
+            startScroll = false;
+            pausePanel.SetActive(true);
+            pauseButton.SetActive(false);
+            isPaused = true;
+        }
+        
+    }
+
+    public void Resume()
+    {
+        if (pausePanel.activeInHierarchy && isPaused)
+        {
+            pausePanel.SetActive(false);
+            countdownToStart = 3;
+            countdownToStartText.gameObject.SetActive(true);
+            isPaused = false;
         }
     }
 
@@ -146,4 +203,5 @@ public class GameManager : MonoBehaviour
             alreadySetStar = true;
         }
     }
+
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MediumTile : Tile
 {
@@ -23,7 +24,7 @@ public class MediumTile : Tile
 
     protected override void OnMouseUp()
     {
-        if (!GameManager.Instance.isGameOver)
+        if (!GameManager.Instance.isGameOver && !EventSystem.current.IsPointerOverGameObject())
         {
             isPressed = false;
             if (canPressed)

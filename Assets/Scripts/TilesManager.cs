@@ -28,7 +28,7 @@ public class TilesManager : MonoBehaviour
     void Update()
     {
         if (!GameManager.Instance.isGameOver)
-        {
+        { 
             TileManage();
         }
     }
@@ -48,8 +48,8 @@ public class TilesManager : MonoBehaviour
         else if (tiles.Count == 0)
         {
             multiplier++;
-            
-            if(speed >= maxSpeed)
+
+            if (speed >= maxSpeed)
             {
                 speed = maxSpeed;
             }
@@ -58,7 +58,7 @@ public class TilesManager : MonoBehaviour
                 speed++;
             }
 
-            if(GameManager.Instance.star >= GameManager.Instance.GetMaxStar())
+            if (GameManager.Instance.star >= GameManager.Instance.GetMaxStar())
             {
                 GameManager.Instance.star = GameManager.Instance.GetMaxStar();
             }

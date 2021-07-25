@@ -80,7 +80,7 @@ public class MapManager : MonoBehaviour
         if (!PlayerPrefs.HasKey("AppFirstRun"))
         {
             //do tutorial
-            PlayerPrefs.SetInt("AppFirstRun", 1);
+            //PlayerPrefs.SetInt("AppFirstRun", 1);
         }
         else
         {

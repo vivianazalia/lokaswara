@@ -8,12 +8,13 @@ public class Island : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject panel;
     [SerializeField] private int levelToUnlock;
+    private bool isUnlock = true;
 
     private void OnMouseDown()
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            if (!panel.activeInHierarchy)
+            if (!panel.activeInHierarchy && isUnlock)
             {
                 panel.SetActive(true);
             }
@@ -31,5 +32,10 @@ public class Island : MonoBehaviour
     public int GetLevelToUnlock()
     {
         return levelToUnlock;
+    }
+
+    public void IsUnlock(bool state)
+    {
+        isUnlock = state;
     }
 }

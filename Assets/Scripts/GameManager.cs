@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         if (isGameOver)
         {
             scoreText.gameObject.SetActive(false);
-            gameOverPanel.SetActive(true);
+            pauseButton.SetActive(false);
             exp = Mathf.RoundToInt(score / 10);
             if(exp < 1)
             {
@@ -118,6 +118,8 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetInt(locationStar, star);
             }
 
+            StartCoroutine(DelayBeforeGameoverPanel());
+
             SetStarImage();
 
             if (!PlayerPrefs.HasKey("AppFirstRun"))
@@ -125,6 +127,12 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetInt("AppFirstRun", 1);
             }
         }
+    }
+
+    IEnumerator DelayBeforeGameoverPanel()
+    {
+        yield return new WaitForSeconds(1);
+        gameOverPanel.SetActive(true);
     }
 
     public void GoToMap()

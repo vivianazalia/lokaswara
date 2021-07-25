@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TilesManager : MonoBehaviour
 {
-    [SerializeField] private List<Tile> tiles = new List<Tile>();
+    public List<Tile> tiles = new List<Tile>();
     [SerializeField] private List<Tile> tilesPressed = new List<Tile>();
     Tile[] childTiles;
 

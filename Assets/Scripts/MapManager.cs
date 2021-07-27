@@ -77,12 +77,7 @@ public class MapManager : MonoBehaviour
 
     void CheckForFirstRun()
     {
-        if (!PlayerPrefs.HasKey("AppFirstRun"))
-        {
-            //do tutorial
-            //PlayerPrefs.SetInt("AppFirstRun", 1);
-        }
-        else
+        if(PlayerPrefs.HasKey("AppFirstRun"))
         {
             if (TimeManager.Instance.DifferenceSeconds() > timerCountDown)
             {
@@ -216,5 +211,19 @@ public class MapManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
         PlayerPrefs.SetInt("Heart", totalHeart);
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus)
+        {
+            PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
+            PlayerPrefs.SetInt("Heart", totalHeart);
+        }
+        else
+        {
+            timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
+            totalHeart = PlayerPrefs.GetInt("Heart");
+        }
     }
 }

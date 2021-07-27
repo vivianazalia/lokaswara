@@ -33,6 +33,8 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetInt("Heart", 3);
             PlayerPrefs.SetInt("TotalExp", 100);
             PlayerPrefs.SetInt("TimerCountDown", 180);
+            PlayerPrefs.SetFloat("BgmVolume", 0.5f);
+            PlayerPrefs.SetFloat("SfxVolume", 0.5f);
 
             //play cutscene
             Debug.Log("Play Cutscene");

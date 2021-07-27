@@ -103,7 +103,6 @@ MonoBehaviour:
   normalSprite: {fileID: 21300000, guid: 6ed487a6efa2ab84dbdc59dcf815863d, type: 3}
   pressedSprite: {fileID: 21300000, guid: f53a374ce79cff14d83594132eed66d2, type: 3}
   audio: {fileID: -8213970617251615172}
-  signFull: {fileID: 0}
 --- !u!61 &-8676691114837620226
 BoxCollider2D:
   m_ObjectHideFlags: 0

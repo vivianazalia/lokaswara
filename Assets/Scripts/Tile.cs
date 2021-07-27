@@ -37,7 +37,8 @@ public class Tile : MonoBehaviour
 
     void ScrollTile()
     {
-        transform.position -= (new Vector3(0, speed, 0) * Time.deltaTime);
+        //Debug.Log("Speed * delta : " + speed * BPeerM.Instance.beatInterval);
+        transform.position -= (new Vector3(0, speed * Time.deltaTime, 0));
     }
 
     protected virtual void OnMouseDown()

@@ -26,13 +26,13 @@ public class NonTileManager : MonoBehaviour
     }
 
     Tile ActiveTile()
-    {
+    { 
         if(tileManager.tiles.Count > 0)
         {
             if (tileManager.tiles[0].canPressed)
             {
                 return tileManager.tiles[0];
-            }
+            }       
         }
         return null;
     }
@@ -40,14 +40,16 @@ public class NonTileManager : MonoBehaviour
 
     void SetXPosition()
     {
+        Tile activeTile = ActiveTile();
+
         foreach(Transform t in nonTiles)
         {
-            if (ActiveTile())
+            if (activeTile)
             {
-                t.localPosition = new Vector3(t.position.x, ActiveTile().transform.position.y, 0);
+                t.localPosition = new Vector3(t.position.x, activeTile.transform.position.y, 0);
                 t.GetComponent<BoxCollider2D>().enabled = true;
 
-                if(t.position == ActiveTile().transform.position)
+                if (t.position == activeTile.transform.position)
                 {
                     t.GetComponent<BoxCollider2D>().enabled = false;
                 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 public class NonTile : MonoBehaviour
 {
     [SerializeField] private Sprite wrongSprite;
@@ -12,10 +14,13 @@ public class NonTile : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-        sr.sprite = wrongSprite;
-        anim.Play("NonTile");
-        GameManager.Instance.startScroll = false;
-        GameManager.Instance.isGameOver = true;
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+            sr.sprite = wrongSprite;
+            anim.Play("NonTile");
+            GameManager.Instance.startScroll = false;
+            GameManager.Instance.isGameOver = true;
+        }
     }
 }

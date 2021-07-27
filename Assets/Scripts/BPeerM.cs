@@ -8,7 +8,7 @@ public class BPeerM : MonoBehaviour
 
     public float bpm;
     public float multiplier;
-    private float beatInterval, beatTimer;
+    public float beatInterval, beatTimer;
     private float beatIntervalD2, beatTimerD2;
     private float beatIntervalD4, beatTimerD4;
     private float beatIntervalD8, beatTimerD8;
@@ -18,14 +18,10 @@ public class BPeerM : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
+        beatInterval = 60 / bpm;
+        if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
         }
     }
 
@@ -40,7 +36,7 @@ public class BPeerM : MonoBehaviour
     void WholeDuration()
     {
         isBeatFull = false;
-        beatInterval = (60 / bpm) * multiplier;
+        beatInterval = 60 / bpm;
         beatTimer += Time.deltaTime;
 
         if(beatTimer >= beatInterval)

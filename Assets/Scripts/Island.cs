@@ -14,6 +14,7 @@ public class Island : MonoBehaviour
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
+            
             if (!panel.activeInHierarchy && isUnlock)
             {
                 panel.SetActive(true);

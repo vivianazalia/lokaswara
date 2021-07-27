@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
             {
                 exp = 1;
             }
-            expText.text = "Exp : " + exp.ToString();
+            expText.text = "+" + exp.ToString();
             if (resultCount)
             {
                 totalExp = PlayerPrefs.GetInt("Exp Point") + exp;
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
             resultScoreText.text = score.ToString();
             highscoreText.text = "Highscore : " + highscore.ToString();
 
-            if(PlayerPrefs.GetInt(locationStar) < maxStar)
+            if(star > PlayerPrefs.GetInt(locationStar))
             {
                 PlayerPrefs.SetInt(locationStar, star);
             }
@@ -192,7 +192,7 @@ public class GameManager : MonoBehaviour
                     Image star = smallStar.AddComponent<Image>();
                     star.sprite = starsSprite[0];
                     RectTransform starRect = smallStar.GetComponent<RectTransform>();
-                    starRect.localScale = new Vector3(.8f, .8f, .8f);
+                    starRect.localScale = new Vector3(2f, 2f, 2f);
                     starRect.localPosition = new Vector3(0, 0, 0);
                     starRect.sizeDelta = new Vector2(70, 70);
                 }
@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviour
                     Image star = bigStar.AddComponent<Image>();
                     star.sprite = starsSprite[1];
                     RectTransform starRect = bigStar.GetComponent<RectTransform>();
-                    starRect.localScale = new Vector3(.8f, .8f, .8f);
+                    starRect.localScale = new Vector3(1.5f, 1.5f, 1.5f);
                     starRect.localPosition = new Vector3(0, 0, 0);
                     starRect.sizeDelta = new Vector2(120, 120);
                 }

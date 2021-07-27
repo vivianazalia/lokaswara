@@ -8,10 +8,8 @@ public class TilesManager : MonoBehaviour
     [SerializeField] private List<Tile> tilesPressed = new List<Tile>();
     Tile[] childTiles;
 
-    [SerializeField] private AudioSource backSong;
-
     private int multiplier = 1;
-    private float speed = 5;
+    public float speed;
     private const float maxSpeed = 15;
 
     void Start()
@@ -21,8 +19,8 @@ public class TilesManager : MonoBehaviour
         for(int i = 0; i < childTiles.Length; i++)
         {
             tiles.Add(childTiles[i]);
+            tiles[i].SetSpeed(speed);
         }
-        backSong.Play();
     }
 
     void Update()
@@ -38,7 +36,6 @@ public class TilesManager : MonoBehaviour
         if (tiles.Count > 0)
         {
             tiles[0].canPressed = true;
-
             if (tiles[0].wasPressed)
             {
                 tilesPressed.Add(tiles[0]);

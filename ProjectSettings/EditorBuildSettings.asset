@@ -20,4 +20,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Cing Cangkeling.unity
     guid: 80b1ab79eb1a14247a2fa2396c3c52ff
+  - enabled: 1
+    path: Assets/Scenes/KidangTalun.unity
+    guid: 757b6dd0c47556a4bb55a187f1aa7c23
+  - enabled: 1
+    path: Assets/Scenes/KicirKicir.unity
+    guid: 42c365f16ecf5954781fbf5f9efb3a6c
+  - enabled: 1
+    path: Assets/Scenes/Dayung Sampan.unity
+    guid: 66da8a6b67d83c346a6678526c472571
   m_configObjects: {}

@@ -37,6 +37,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string locationHighscore;
     [SerializeField] private string locationStar;
 
+    [SerializeField] private AudioSource sfx;
+
+    [SerializeField] private GameObject popupHeart;
+
     private Scene currentScene;
     private void Awake()
     {
@@ -50,6 +54,7 @@ public class GameManager : MonoBehaviour
     {
         highscore = PlayerPrefs.GetInt(locationHighscore);
         currentScene = SceneManager.GetActiveScene();
+        sfx.volume = PlayerPrefs.GetFloat("SfxVolume");
     }
 
     void Update()
@@ -111,7 +116,7 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetInt(locationHighscore, highscore);
             }
             resultScoreText.text = score.ToString();
-            highscoreText.text = "Highscore : " + highscore.ToString();
+            highscoreText.text = "Skor tertinggi : " + highscore.ToString();
 
             if(star > PlayerPrefs.GetInt(locationStar))
             {
@@ -137,11 +142,13 @@ public class GameManager : MonoBehaviour
 
     public void GoToMap()
     {
+        sfx.Play();
         SceneManager.LoadScene("Map");
     }
 
     public void Retry()
     {
+        sfx.Play();
         int currentHeart = PlayerPrefs.GetInt("Heart");
         if(currentHeart > 0)
         {
@@ -149,10 +156,15 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("Heart", currentHeart);
             SceneManager.LoadScene(currentScene.name);
         }
+        else
+        {
+            PopupHeart(true);
+        }
     }
 
     public void Pause()
     {
+        sfx.Play();
         if (!isPaused)
         {
             startScroll = false;
@@ -165,6 +177,7 @@ public class GameManager : MonoBehaviour
 
     public void Resume()
     {
+        sfx.Play();
         if (pausePanel.activeInHierarchy && isPaused)
         {
             pausePanel.SetActive(false);
@@ -174,6 +187,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PopupHeart(bool state)
+    {
+        popupHeart.SetActive(state);
+    }
+
+    public void Close()
+    {
+        sfx.Play();
+        if (popupHeart.activeInHierarchy)
+        {
+            popupHeart.SetActive(false);
+        }
+    }
     void SetStarImage()
     {
         if (!alreadySetStar)

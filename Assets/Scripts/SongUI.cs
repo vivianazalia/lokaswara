@@ -50,6 +50,7 @@ public class SongUI : MonoBehaviour
 
     public void PlayGame()
     {
+        MapManager.Instance.audio.Play();
         isClicked = true;
         totalHeart = PlayerPrefs.GetInt("Heart");
         if (totalHeart > 0)
@@ -60,10 +61,15 @@ public class SongUI : MonoBehaviour
             PlayerPrefs.SetInt("Heart", totalHeart);
             SceneManager.LoadScene(sceneToLoad);
         }
+        else
+        {
+            MapManager.Instance.PopupHeart(true);
+        }
     }
 
     public void ShowInfo()
     {
+        MapManager.Instance.audio.Play();
         if (!infoPanel.activeInHierarchy)
         {
             infoPanel.SetActive(true);
@@ -82,6 +88,7 @@ public class SongUI : MonoBehaviour
 
     public void Close()
     {
+        MapManager.Instance.audio.Play();
         if (infoPanel.activeInHierarchy)
         {
             infoPanel.SetActive(false);

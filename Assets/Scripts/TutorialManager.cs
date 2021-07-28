@@ -11,7 +11,7 @@ public class TutorialManager : MonoBehaviour
 
     private Tutorial currentTutorial;
 
-    private int lastOrder;
+    private Animator anim;
 
     public static TutorialManager Instance;
     private void Awake()
@@ -24,6 +24,7 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
+        anim = GetComponent<Animator>();
         explanationText = GameObject.Find("Canvas/Explanation Text").GetComponent<Text>();
         if (!PlayerPrefs.HasKey("AppFirstRun"))
         {
@@ -63,6 +64,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         explanationText.text = currentTutorial.explanation;
+        anim.Play("Tutorial");
     }
 
     public int CheckListCount()

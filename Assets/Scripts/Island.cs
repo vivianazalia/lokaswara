@@ -14,7 +14,7 @@ public class Island : MonoBehaviour
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            
+            MapManager.Instance.audio.Play();
             if (!panel.activeInHierarchy && isUnlock)
             {
                 panel.SetActive(true);
@@ -24,6 +24,7 @@ public class Island : MonoBehaviour
 
     public void Close()
     {
+        MapManager.Instance.audio.Play();
         if (panel.activeInHierarchy)
         {
             panel.SetActive(false);

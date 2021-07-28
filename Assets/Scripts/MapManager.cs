@@ -19,6 +19,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Text secondsText;
     [SerializeField] private Text heartText;
     [SerializeField] private Text fullText;
+    [SerializeField] private GameObject popupEmptyHeart;
 
     [Header("Setting")]
     [SerializeField] private GameObject settingPanel;
@@ -33,6 +34,9 @@ public class MapManager : MonoBehaviour
 
     private int seconds;
     private int minutes;
+
+    public AudioSource audio;
+    public AudioSource bgm;
 
     public static MapManager Instance;
 
@@ -59,6 +63,8 @@ public class MapManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         heartText.text = totalHeart.ToString();
         PlayerPrefs.SetInt("Heart", totalHeart);
+        audio.volume = PlayerPrefs.GetFloat("SfxVolume");
+        bgm.volume = PlayerPrefs.GetFloat("BgmVolume");
     }
 
     void Update()
@@ -70,6 +76,8 @@ public class MapManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
+                PlayerPrefs.SetInt("Heart", totalHeart);
                 SceneManager.LoadScene(0);
             }
         }
@@ -180,31 +188,23 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public void OnSceneChange()
+    public void PopupHeart(bool state)
     {
-        PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
+        popupEmptyHeart.SetActive(state);
     }
 
     public void Close()
     {
-        if (settingPanel.activeInHierarchy)
+        audio.Play();
+        if (popupEmptyHeart.activeInHierarchy)
         {
-            settingPanel.SetActive(false);
-        } 
-        else if (creditPanel.activeInHierarchy)
-        {
-            creditPanel.SetActive(false);
+            popupEmptyHeart.SetActive(false);
         }
     }
 
-    public void Setting()
+    public void OnSceneChange()
     {
-        settingPanel.SetActive(true);
-    }
-
-    public void Credit()
-    {
-        creditPanel.SetActive(true);
+        PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
     }
 
     private void OnApplicationQuit()
@@ -217,13 +217,29 @@ public class MapManager : MonoBehaviour
     {
         if (focus)
         {
+            CheckForFirstRun();
+        }
+
+        if (!focus)
+        {
+            PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
+            PlayerPrefs.SetInt("Heart", totalHeart);   
+        }
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (!pause)
+        {
+            CheckForFirstRun();
+        }
+
+        if (pause)
+        {
             PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
             PlayerPrefs.SetInt("Heart", totalHeart);
         }
-        else
-        {
-            timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
-            totalHeart = PlayerPrefs.GetInt("Heart");
-        }
     }
+
+
 }

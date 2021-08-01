@@ -30,7 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text resultScoreText;
     [SerializeField] private Text highscoreText;
     [SerializeField] private Text expText;
-    [SerializeField] protected Text countdownToStartText;
+    [SerializeField] private Text countdownToStartText;
+    [SerializeField] private Text gameoverText;
+    [SerializeField] private GameObject countdownPanel;
     [SerializeField] private GameObject[] starsImage = new GameObject[3];
     [SerializeField] private Sprite[] starsSprite = new Sprite[2];
 
@@ -40,6 +42,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource sfx;
 
     [SerializeField] private GameObject popupHeart;
+
+    private string[] motivationText = new string[] { "Semangat!!", "Yuk, pasti bisa!", "Jangan menyerah!", "Ayo, coba lagi!"}; 
 
     private Scene currentScene;
     private void Awake()
@@ -55,12 +59,20 @@ public class GameManager : MonoBehaviour
         highscore = PlayerPrefs.GetInt(locationHighscore);
         currentScene = SceneManager.GetActiveScene();
         sfx.volume = PlayerPrefs.GetFloat("SfxVolume");
+
+        SetGameoverText();
     }
 
     void Update()
     {
         CountdownToStart();
         GameOver();
+    }
+
+    void SetGameoverText()
+    {
+        int randIndex = Random.Range(0, motivationText.Length);
+        gameoverText.text = motivationText[randIndex];
     }
 
     private void CountdownToStart()
@@ -81,6 +93,7 @@ public class GameManager : MonoBehaviour
             }
 
             countdownToStartText.gameObject.SetActive(false);
+            countdownPanel.SetActive(false);
             scoreText.gameObject.SetActive(true);
             scoreText.text = score.ToString();
         }
@@ -152,7 +165,7 @@ public class GameManager : MonoBehaviour
         int currentHeart = PlayerPrefs.GetInt("Heart");
         if(currentHeart > 0)
         {
-            currentHeart--;
+            currentHeart -= 1;
             PlayerPrefs.SetInt("Heart", currentHeart);
             SceneManager.LoadScene(currentScene.name);
         }
@@ -183,6 +196,7 @@ public class GameManager : MonoBehaviour
             pausePanel.SetActive(false);
             countdownToStart = 3;
             countdownToStartText.gameObject.SetActive(true);
+            countdownPanel.SetActive(true);
             isPaused = false;
         }
     }

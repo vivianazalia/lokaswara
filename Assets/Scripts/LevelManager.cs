@@ -16,11 +16,11 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         islandLevelToUnlock = FindObjectsOfType<Island>();
-        //bgm = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
         ConfigureButtonLevel();
-        //buttonClick.volume = PlayerPrefs.GetFloat("Volume");
-        //bgm.volume = PlayerPrefs.GetFloat("Volume");
-        //bgm.Play();
     }
 
     private void ConfigureButtonLevel()
@@ -43,10 +43,5 @@ public class LevelManager : MonoBehaviour
                 islandLevelToUnlock[i].IsUnlock(false);
             }
         }
-    }
-
-    public void PlaySFX()
-    {
-        //buttonClick.Play();
     }
 }

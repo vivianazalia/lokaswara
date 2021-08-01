@@ -21,16 +21,10 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Text fullText;
     [SerializeField] private GameObject popupEmptyHeart;
 
-    [Header("Setting")]
-    [SerializeField] private GameObject settingPanel;
-
-    [Header("Credit")]
-    [SerializeField] private GameObject creditPanel;
-
-    private const float timerMax = 180;
+    private const float timerMax = 120;
     private float timerCountDown;
     private int totalHeart;
-    private const int maxHeart = 3;
+    private const int maxHeart = 5;
 
     private int seconds;
     private int minutes;
@@ -50,9 +44,7 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
-        totalHeart = PlayerPrefs.GetInt("Heart");
         totalExp = PlayerPrefs.GetInt("TotalExp");
-        timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
         currentExp = PlayerPrefs.GetInt("Exp Point");
         currentLevel = PlayerPrefs.GetInt("Level");
 
@@ -61,8 +53,6 @@ public class MapManager : MonoBehaviour
         currentExpText.text = currentExp.ToString();
         totalExpText.text = totalExp.ToString();
         levelText.text = currentLevel.ToString();
-        heartText.text = totalHeart.ToString();
-        PlayerPrefs.SetInt("Heart", totalHeart);
         audio.volume = PlayerPrefs.GetFloat("SfxVolume");
         bgm.volume = PlayerPrefs.GetFloat("BgmVolume");
     }
@@ -76,6 +66,7 @@ public class MapManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                PlayerPrefs.SetString("LastTime", System.DateTime.Now.ToString());
                 PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
                 PlayerPrefs.SetInt("Heart", totalHeart);
                 SceneManager.LoadScene(0);
@@ -85,7 +76,10 @@ public class MapManager : MonoBehaviour
 
     void CheckForFirstRun()
     {
-        if(PlayerPrefs.HasKey("AppFirstRun"))
+        totalHeart = PlayerPrefs.GetInt("Heart");
+        timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
+
+        if (PlayerPrefs.HasKey("AppFirstRun"))
         {
             if (TimeManager.Instance.DifferenceSeconds() > timerCountDown)
             {
@@ -107,12 +101,16 @@ public class MapManager : MonoBehaviour
                     totalHeart = maxHeart;
                     timerCountDown = timerMax;
                 }
+
+                PlayerPrefs.SetInt("Heart", totalHeart);
             }
             else
             {
                 timerCountDown -= TimeManager.Instance.DifferenceSeconds();
             }
         }
+
+        heartText.text = totalHeart.ToString();
     }
 
     void LevelUp()
@@ -126,7 +124,7 @@ public class MapManager : MonoBehaviour
             currentExp = substractExp;
             PlayerPrefs.SetInt("Exp Point", currentExp);
             currentExpText.text = currentExp.ToString();
-            totalExp = (totalExp * 2);
+            totalExp += (350 * currentLevel);
             PlayerPrefs.SetInt("TotalExp", totalExp);
             totalExpText.text = totalExp.ToString();
         }
@@ -217,13 +215,16 @@ public class MapManager : MonoBehaviour
     {
         if (focus)
         {
+            timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
+            totalHeart = PlayerPrefs.GetInt("Heart");
             CheckForFirstRun();
         }
-
+    
         if (!focus)
         {
+            PlayerPrefs.SetString("LastTime", System.DateTime.Now.ToString());
             PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
-            PlayerPrefs.SetInt("Heart", totalHeart);   
+            PlayerPrefs.SetInt("Heart", totalHeart);
         }
     }
 
@@ -231,15 +232,16 @@ public class MapManager : MonoBehaviour
     {
         if (!pause)
         {
+            timerCountDown = PlayerPrefs.GetInt("TimerCountDown");
+            totalHeart = PlayerPrefs.GetInt("Heart");
             CheckForFirstRun();
         }
-
+    
         if (pause)
         {
+            PlayerPrefs.SetString("LastTime", System.DateTime.Now.ToString());
             PlayerPrefs.SetInt("TimerCountDown", (int)timerCountDown);
             PlayerPrefs.SetInt("Heart", totalHeart);
         }
     }
-
-
 }

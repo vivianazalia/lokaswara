@@ -23,7 +23,6 @@ public class SongUI : MonoBehaviour
     [SerializeField] private string locationStar;
 
     private Transform firstParent;
-    private int totalHeart;
     private int highscore;
     private int star;
     [SerializeField] private int levelToUnlock;
@@ -52,13 +51,13 @@ public class SongUI : MonoBehaviour
     {
         MapManager.Instance.audio.Play();
         isClicked = true;
-        totalHeart = PlayerPrefs.GetInt("Heart");
+        int totalHeart = PlayerPrefs.GetInt("Heart");
         if (totalHeart > 0)
         {
-            totalHeart--;
+            totalHeart -= 1;
+            PlayerPrefs.SetInt("Heart", totalHeart);
             PlayerPrefs.SetString("LastTime", System.DateTime.Now.ToString());
             MapManager.Instance.OnSceneChange();
-            PlayerPrefs.SetInt("Heart", totalHeart);
             SceneManager.LoadScene(sceneToLoad);
         }
         else
@@ -105,10 +104,12 @@ public class SongUI : MonoBehaviour
     {
         if (!song.isPlaying)
         {
+            MapManager.Instance.bgm.Stop();
             song.Play();
         }
         else
         {
+            MapManager.Instance.bgm.Play();
             song.Stop();
         }
     }

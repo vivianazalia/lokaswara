@@ -22,7 +22,11 @@ public class NonTileManager : MonoBehaviour
 
     private void Update()
     {
-        SetXPosition();
+        if (GameManager.Instance.startScroll)
+        {
+            SetXPosition();
+        }
+        
     }
 
     Tile ActiveTile()

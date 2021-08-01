@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class MenuManager : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class MenuManager : MonoBehaviour
     [Header("Credit")]
     [SerializeField] private GameObject creditPanel;
 
+    [Header("Tutorial")]
+    [SerializeField] private GameObject tutorialPanel;
+
+    [SerializeField] private GameObject cutscene;
+    [SerializeField] private VideoPlayer video;
     [SerializeField] private AudioSource sfx;
     [SerializeField] private AudioSource bgm;
 
@@ -20,8 +26,8 @@ public class MenuManager : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("AppFirstRun"))
         {
-            PlayerPrefs.SetFloat("BgmVolume", 0.5f);
-            PlayerPrefs.SetFloat("SfxVolume", 0.5f);
+            PlayerPrefs.SetFloat("BgmVolume", 1);
+            PlayerPrefs.SetFloat("SfxVolume", 1);
         }
         bgm.volume = PlayerPrefs.GetFloat("BgmVolume");
         sfx.volume = PlayerPrefs.GetFloat("SfxVolume");
@@ -46,6 +52,7 @@ public class MenuManager : MonoBehaviour
         Debug.Log("Reset Succes");
     }
 
+    
     public void Play()
     {
         sfx.Play();
@@ -54,13 +61,30 @@ public class MenuManager : MonoBehaviour
             //configure 
             PlayerPrefs.SetInt("Level", 1);
             PlayerPrefs.SetInt("Exp Point", 0);
-            PlayerPrefs.SetInt("Heart", 3);
-            PlayerPrefs.SetInt("TotalExp", 100);
-            PlayerPrefs.SetInt("TimerCountDown", 180);
+            PlayerPrefs.SetInt("Heart", 5);
+            PlayerPrefs.SetInt("TotalExp", 350);
+            PlayerPrefs.SetInt("TimerCountDown", 120);
 
             //play cutscene
+            bgm.Stop();
+            video.gameObject.SetActive(true);
+            cutscene.SetActive(true);
             Debug.Log("Play Cutscene");
+            video.loopPointReached += CheckVideoOver;
         }
+        else
+        {
+            SceneManager.LoadScene("Map");
+        }
+    }
+
+    public void SkipVideo()
+    {
+        SceneManager.LoadScene("Map");
+    }
+
+    void CheckVideoOver(VideoPlayer vp)
+    {
         SceneManager.LoadScene("Map");
     }
 
@@ -93,6 +117,12 @@ public class MenuManager : MonoBehaviour
         settingPanel.SetActive(true);
     }
 
+    public void Tutorial()
+    {
+        sfx.Play();
+        tutorialPanel.SetActive(true);
+    }
+
     public void Credit()
     {
         sfx.Play();
@@ -109,6 +139,10 @@ public class MenuManager : MonoBehaviour
         else if (creditPanel.activeInHierarchy)
         {
             creditPanel.SetActive(false);
+        } 
+        else if (tutorialPanel.activeInHierarchy)
+        {
+            tutorialPanel.SetActive(false);
         }
     }
 

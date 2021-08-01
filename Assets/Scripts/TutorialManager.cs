@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TutorialManager : MonoBehaviour
 {
     public List<Tutorial> tutorials = new List<Tutorial>();
+    public List<RuntimeAnimatorController> animations = new List<RuntimeAnimatorController>();
 
     public Text explanationText;
 
@@ -64,7 +65,8 @@ public class TutorialManager : MonoBehaviour
         }
 
         explanationText.text = currentTutorial.explanation;
-        anim.Play("Tutorial");
+        anim.runtimeAnimatorController = animations[currentOrder - 1];
+        anim.Play(animations[currentOrder - 1].animationClips.ToString());
     }
 
     public int CheckListCount()
